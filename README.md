@@ -1,4 +1,4 @@
-# Candy Launcher
+# Candy Launcher 
 
 An experimental launcher for Android created using Flutter and the `launcher_assist` package.
 
