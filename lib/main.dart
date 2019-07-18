@@ -6,6 +6,8 @@ import 'package:launcher_assist/launcher_assist.dart';
 
 void main() => runApp(new CandyLauncher());
 
+
+
 class CandyLauncher extends StatefulWidget {
 
   @override
@@ -23,27 +25,69 @@ class _CandyLauncherState extends State<CandyLauncher> {
     if(installedAppDetails != null) {
       List<Widget> appWidgets = getAppIcons();
       return new MaterialApp(
-          home: new Stack(
+
+          home: DefaultTabController(
+          length: 2,
+          child: Scaffold(
+            appBar: AppBar(
+              bottom: TabBar(
+                isScrollable: true,
+                tabs: [
+                  Tab(icon: Icon(Icons.directions_car)),
+                  Tab(icon: Icon(Icons.apps)),
+                ],
+              ),
+            ),
+
+              body: TabBarView(
+                children: [
+                  Stack(
+                      children: <Widget>[
+                        userWallpaper = new Image.asset("images/wallpaper.jpeg",
+                            fit: BoxFit.cover,
+                            height: double.infinity,
+                            width: double.infinity
+                        ),
+                        new Padding(
+                            padding: new EdgeInsets.only(top: 30.0),
+                            child: new GridView.count(
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                children: appWidgets,
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 16.0,
+                                mainAxisSpacing: 20.0,
+                                childAspectRatio: 1.0,
+                                padding: const EdgeInsets.all(16.0)
+                            )
+                        )
+                      ]
+                  ),
+              Stack(
               children: <Widget>[
-                userWallpaper == null ? new Center() : new Image.memory(userWallpaper,
-                    fit: BoxFit.cover,
-                    height: double.infinity,
-                    width: double.infinity
-                ),
-                new Padding(
-                    padding: new EdgeInsets.only(top: 30.0),
-                    child: new GridView.count(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        children: appWidgets,
-                        crossAxisCount: 3,
-                        crossAxisSpacing: 16.0,
-                        mainAxisSpacing: 20.0,
-                        childAspectRatio: 1.0,
-                        padding: const EdgeInsets.all(16.0)
-                    )
-                )
+              userWallpaper = new Image.asset("images/wallpaper.jpeg",
+                  fit: BoxFit.cover,
+                  height: double.infinity,
+                  width: double.infinity
+              ),
+              new Padding(
+                  padding: new EdgeInsets.only(top: 30.0),
+                  child: new GridView.count(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      children: appWidgets,
+                      crossAxisCount: 5,
+                      crossAxisSpacing: 16.0,
+                      mainAxisSpacing: 20.0,
+                      childAspectRatio: 1.0,
+                      padding: const EdgeInsets.all(16.0)
+                  )
+              )
               ]
-          )
+          ),
+
+                ],
+              ),
+          ),
+          ),
       );
     } else {
       return new Center();
@@ -53,7 +97,7 @@ class _CandyLauncherState extends State<CandyLauncher> {
   @override
   void initState() {
     SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp
+      DeviceOrientation.landscapeRight
     ]);
     loadNativeStuff();
   }
@@ -64,11 +108,7 @@ class _CandyLauncherState extends State<CandyLauncher> {
         installedAppDetails = _appDetails;
       });
     });
-    LauncherAssist.getWallpaper().then((_imageData) {
-      setState(() {
-        userWallpaper = _imageData;
-      });
-    });
+
   }
 
    getAppIcons() {
@@ -87,7 +127,7 @@ class _CandyLauncherState extends State<CandyLauncher> {
       );
       var labelContainer = new Container(
           decoration: new BoxDecoration (
-              color: Colors.black54,
+              color: Colors.transparent,
               borderRadius: new BorderRadius.all(new Radius.circular(5.0))
           ),
           child: label,
